@@ -43,7 +43,7 @@
      * agar crawler WhatsApp membaca gambar yang sama secara instan.
      * --------------------------------------------------------------------------
      */
-    var DEFAULT_OG_IMAGE_URL = "https://lh3.googleusercontent.com/d/1dowZbNIqhPau45UlTyepU_3lcASsepGw=w1200";
+    var DEFAULT_OG_IMAGE_URL = "https://lh3.googleusercontent.com/d/10iu5cN2V4enK-YGCGh_hSunW2Sq7dSxw=w1200";
   </script>
 
   <title id="metaTitle">The Wedding of Teguh & Sefi</title>
@@ -52,7 +52,7 @@
   
   <meta itemprop="name" content="The Wedding of Teguh & Sefi">
   <meta itemprop="description" content="Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.">
-  <meta itemprop="image" id="dynItempropImage" content="https://lh3.googleusercontent.com/d/1dowZbNIqhPau45UlTyepU_3lcASsepGw=w1200">
+  <meta itemprop="image" id="dynItempropImage" content="https://lh3.googleusercontent.com/d/10iu5cN2V4enK-YGCGh_hSunW2Sq7dSxw=w1200">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="id_ID">
@@ -60,19 +60,19 @@
   <meta property="og:title" id="dynOgTitle" content="The Wedding of Teguh & Sefi">
   <meta property="og:description" id="dynOgDesc" content="Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.">
   
-  <meta property="og:image" id="dynOgImage" content="https://lh3.googleusercontent.com/d/1dowZbNIqhPau45UlTyepU_3lcASsepGw=w1200">
-  <meta property="og:image:secure_url" id="dynOgImageSecure" content="https://lh3.googleusercontent.com/d/1dowZbNIqhPau45UlTyepU_3lcASsepGw=w1200">
+  <meta property="og:image" id="dynOgImage" content="https://lh3.googleusercontent.com/d/10iu5cN2V4enK-YGCGh_hSunW2Sq7dSxw=w1200">
+  <meta property="og:image:secure_url" id="dynOgImageSecure" content="https://lh3.googleusercontent.com/d/10iu5cN2V4enK-YGCGh_hSunW2Sq7dSxw=w1200">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Wedding Invitation Cover Photo">
 
-  <link rel="image_src" id="dynLinkImageSrc" href="https://lh3.googleusercontent.com/d/1dowZbNIqhPau45UlTyepU_3lcASsepGw=w1200">
+  <link rel="image_src" id="dynLinkImageSrc" href="https://lh3.googleusercontent.com/d/10iu5cN2V4enK-YGCGh_hSunW2Sq7dSxw=w1200">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" id="dynTwTitle" content="The Wedding of Teguh & Sefi">
   <meta name="twitter:description" id="dynTwDesc" content="Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.">
-  <meta name="twitter:image" id="dynTwImage" content="https://lh3.googleusercontent.com/d/1dowZbNIqhPau45UlTyepU_3lcASsepGw=w1200">
+  <meta name="twitter:image" id="dynTwImage" content="https://lh3.googleusercontent.com/d/10iu5cN2V4enK-YGCGh_hSunW2Sq7dSxw=w1200">
 
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -2939,34 +2939,39 @@
       { id: 'foto_galeri_8', index: 8, url: 'https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=1200&q=80', thumb: 'https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=600&q=80' }
     ];
 
-    // OFFLINE_KEYS: Cache ucapan RSVP dihapus permanen agar sinkron real-time dengan Google Sheets
+    // OFFLINE_KEYS: Versi cache diperbarui ke v4 & cache nama lama dibersihkan tuntas
     var OFFLINE_KEYS = {
-      SETTINGS: 'zb_luxury_settings_cache_v3',
+      SETTINGS: 'zb_luxury_settings_cache_v4',
       STORIES: 'zb_luxury_stories_cache_v3',
       GUEST_NAME: 'zb_luxury_guest_name_v3',
       OFFLINE_QUEUE: 'zb_luxury_offline_rsvp_queue_v3',
       CUSTOM_API_URL: 'zb_luxury_custom_api_url_v3'
     };
 
-    // Auto-Purge: Membersihkan sisa data hantu di memori browser pengunjung seketika
+    // Auto-Purge: Membersihkan sisa cache pengaturan lama yang menyimpan nama usang (Tono & Tini)
     try {
       if (window.localStorage) {
         localStorage.removeItem('zb_luxury_rsvp_cache_v3');
+        var oldCachedSettings = localStorage.getItem('zb_luxury_settings_cache_v3');
+        if (oldCachedSettings && (oldCachedSettings.indexOf('Tono') > -1 || oldCachedSettings.indexOf('Hartono') > -1)) {
+          localStorage.removeItem('zb_luxury_settings_cache_v3');
+        }
       }
     } catch (e) {}
 
+    // defaultSettings dibuat netral tanpa hardcode nama lama agar DOM HTML menjadi rujukan utama
     var defaultSettings = {
-      judul_acara: 'The Wedding of Tono & Tini',
-      teks_pembuka_mempelai: 'Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud melangsungkan pernikahan:',
-      nama_pria: 'Tono',
-      nama_lengkap_pria: 'Hartono Pratama',
+      judul_acara: '',
+      teks_pembuka_mempelai: '',
+      nama_pria: '',
+      nama_lengkap_pria: '',
       ortu_pria: '',
-      foto_pria: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80',
-      nama_wanita: 'Tini',
-      nama_lengkap_wanita: 'Kartini Anggraini',
+      foto_pria: '',
+      nama_wanita: '',
+      nama_lengkap_wanita: '',
       ortu_wanita: '',
-      foto_wanita: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80',
-      foto_cover: (typeof DEFAULT_OG_IMAGE_URL !== 'undefined') ? DEFAULT_OG_IMAGE_URL : 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
+      foto_wanita: '',
+      foto_cover: (typeof DEFAULT_OG_IMAGE_URL !== 'undefined') ? DEFAULT_OG_IMAGE_URL : '',
       tanggal_header: '',
       tanggal_countdown: '',
       tanggal_akad: '',
@@ -2984,9 +2989,9 @@
       bank_2_nama: '',
       bank_2_norek: '',
       bank_2_an: '',
-      quote_teks: 'Dan di antara tanda-tanda kebesaran-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri...',
-      quote_sumber: 'QS. Ar-Rum: 21',
-      teks_penutup: 'Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.',
+      quote_teks: '',
+      quote_sumber: '',
+      teks_penutup: '',
       url_audio_bg: '',
       admin_pin: '123456',
       vendor_wa: '',
@@ -3776,19 +3781,35 @@
     function applySettingsToDOM(s) {
       if (!s) return;
       try {
-        var namaPria = s.nama_pria || 'Tono';
-        var namaWanita = s.nama_wanita || 'Tini';
+        // 1. BACA TERLEBIH DAHULU NAMA ASLI DARI ELEMEN DOM HTML SEBAGAI MASTER RUJUKAN
+        var domCoverPria = document.getElementById('coverNamaPria');
+        var domCoverWanita = document.getElementById('coverNamaWanita');
+        var currentPriaInDOM = domCoverPria ? domCoverPria.textContent.trim() : '';
+        var currentWanitaInDOM = domCoverWanita ? domCoverWanita.textContent.trim() : '';
+
+        // Tentukan nama: Utamakan data baru dari settings, atau pertahankan teks yang sudah Anda ketik di HTML
+        var namaPria = (s.nama_pria && s.nama_pria.trim()) ? s.nama_pria.trim() : currentPriaInDOM;
+        var namaWanita = (s.nama_wanita && s.nama_wanita.trim()) ? s.nama_wanita.trim() : currentWanitaInDOM;
         var coupleText = (namaPria && namaWanita) ? (namaPria + ' & ' + namaWanita) : (namaPria || namaWanita);
 
-        var titleStr = s.judul_acara || (coupleText ? ('The Wedding of ' + coupleText) : 'The Wedding Invitation');
-        document.title = titleStr;
-        
-        var mTitle = document.getElementById('dynMetaTitle');
-        if (mTitle) mTitle.content = titleStr;
-        var ogTitle = document.getElementById('dynOgTitle');
-        if (ogTitle) ogTitle.content = titleStr;
-        var twTitle = document.getElementById('dynTwTitle');
-        if (twTitle) twTitle.content = titleStr;
+        // Update teks judul dan metadata hanya jika tersedia nama yang valid
+        if (coupleText) {
+          var titleStr = (s.judul_acara && s.judul_acara.trim()) ? s.judul_acara.trim() : ('The Wedding of ' + coupleText);
+          document.title = titleStr;
+          
+          var mTitle = document.getElementById('dynMetaTitle');
+          if (mTitle) mTitle.content = titleStr;
+          var ogTitle = document.getElementById('dynOgTitle');
+          if (ogTitle) ogTitle.content = titleStr;
+          var twTitle = document.getElementById('dynTwTitle');
+          if (twTitle) twTitle.content = titleStr;
+
+          var loaderCouple = document.getElementById('loaderCoupleNames');
+          if (loaderCouple && loaderCouple.textContent !== coupleText) loaderCouple.textContent = coupleText;
+
+          var footerNames = document.getElementById('footerNames');
+          if (footerNames && footerNames.textContent !== coupleText) footerNames.textContent = coupleText;
+        }
 
         if (s.teks_penutup) {
           var mDesc = document.getElementById('dynMetaDesc');
@@ -3797,36 +3818,40 @@
           if (ogDesc) ogDesc.content = s.teks_penutup;
           var twDesc = document.getElementById('dynTwDesc');
           if (twDesc) twDesc.content = s.teks_penutup;
+          var elTeksPenutup = document.getElementById('teksPenutup');
+          if (elTeksPenutup) elTeksPenutup.textContent = s.teks_penutup;
         }
         
-        var initP = namaPria ? String(namaPria).trim().charAt(0).toUpperCase() : 'T';
-        var initW = namaWanita ? String(namaWanita).trim().charAt(0).toUpperCase() : 'T';
+        // Inisial Monogram (Cover, Loader, dan Footer)
+        var initP = namaPria ? namaPria.charAt(0).toUpperCase() : '';
+        var initW = namaWanita ? namaWanita.charAt(0).toUpperCase() : '';
 
-        var loaderInitialPria = document.getElementById('loaderInitialPria');
-        if (loaderInitialPria) loaderInitialPria.textContent = initP;
-        var loaderInitialWanita = document.getElementById('loaderInitialWanita');
-        if (loaderInitialWanita) loaderInitialWanita.textContent = initW;
-        var loaderCouple = document.getElementById('loaderCoupleNames');
-        if (loaderCouple && coupleText) loaderCouple.textContent = coupleText;
+        if (initP) {
+          var loaderInitialPria = document.getElementById('loaderInitialPria');
+          if (loaderInitialPria) loaderInitialPria.textContent = initP;
+          var footerInitP = document.getElementById('footerInitialPria');
+          if (footerInitP) footerInitP.textContent = initP;
+        }
 
-        // Monogram footer grand crest
-        var footerInitP = document.getElementById('footerInitialPria');
-        if (footerInitP) footerInitP.textContent = initP;
-        var footerInitW = document.getElementById('footerInitialWanita');
-        if (footerInitW) footerInitW.textContent = initW;
+        if (initW) {
+          var loaderInitialWanita = document.getElementById('loaderInitialWanita');
+          if (loaderInitialWanita) loaderInitialWanita.textContent = initW;
+          var footerInitW = document.getElementById('footerInitialWanita');
+          if (footerInitW) footerInitW.textContent = initW;
+        }
 
-        var coverPria = document.getElementById('coverNamaPria');
-        if (coverPria) coverPria.textContent = namaPria;
-        var coverWanita = document.getElementById('coverNamaWanita');
-        if (coverWanita) coverWanita.textContent = namaWanita;
+        // Terapkan nama panggilan mempelai ke Cover dan Header secara sinkron
+        if (namaPria) {
+          if (domCoverPria && domCoverPria.textContent !== namaPria) domCoverPria.textContent = namaPria;
+          var headerPria = document.getElementById('headerNamaPria');
+          if (headerPria && headerPria.textContent !== namaPria) headerPria.textContent = namaPria;
+        }
 
-        var headerPria = document.getElementById('headerNamaPria');
-        if (headerPria) headerPria.textContent = namaPria;
-        var headerWanita = document.getElementById('headerNamaWanita');
-        if (headerWanita) headerWanita.textContent = namaWanita;
-
-        var footerNames = document.getElementById('footerNames');
-        if (footerNames) footerNames.textContent = coupleText;
+        if (namaWanita) {
+          if (domCoverWanita && domCoverWanita.textContent !== namaWanita) domCoverWanita.textContent = namaWanita;
+          var headerWanita = document.getElementById('headerNamaWanita');
+          if (headerWanita && headerWanita.textContent !== namaWanita) headerWanita.textContent = namaWanita;
+        }
 
         if (s.teks_pembuka_mempelai) {
           var elPembuka = document.getElementById('teksPembukaMempelai');
@@ -3904,8 +3929,6 @@
         if (s.bank_2_nama) document.getElementById('bank2Nama').textContent = s.bank_2_nama;
         if (s.bank_2_norek) document.getElementById('bank2Norek').textContent = s.bank_2_norek;
         if (s.bank_2_an) document.getElementById('bank2An').textContent = s.bank_2_an;
-
-        if (s.teks_penutup) document.getElementById('teksPenutup').textContent = s.teks_penutup;
 
         if (s.vendor_wa) {
           var cleanVendorWa = String(s.vendor_wa).replace(/[^0-9]/g, '');
@@ -4489,7 +4512,11 @@
     }
 
     function buildClientWAMessage(namaVal, linkVal, agamaVal) {
-      var coupleText = (cachedSettings.nama_pria && cachedSettings.nama_wanita) ? (cachedSettings.nama_pria + ' & ' + cachedSettings.nama_wanita) : (cachedSettings.nama_pria || cachedSettings.nama_wanita || 'Tono & Tini');
+      var domCoverPria = document.getElementById('coverNamaPria');
+      var domCoverWanita = document.getElementById('coverNamaWanita');
+      var pName = (cachedSettings.nama_pria && cachedSettings.nama_pria.trim()) || (domCoverPria ? domCoverPria.textContent.trim() : '');
+      var wName = (cachedSettings.nama_wanita && cachedSettings.nama_wanita.trim()) || (domCoverWanita ? domCoverWanita.textContent.trim() : '');
+      var coupleText = (pName && wName) ? (pName + ' & ' + wName) : (pName || wName || 'Mempelai');
       var cleanAgama = (agamaVal || 'Islam').toLowerCase();
 
       if (cleanAgama.indexOf('islam') > -1) {
@@ -4527,7 +4554,7 @@
         return '⛪ *UNDANGAN SAKRAMEN PERNIKAHAN* ⛪\n\n' +
           '_Salam Sejahtera dalam Kasih Kristus / Berkah Dalem_\n\n' +
           'Kepada Yth. Bapak/Ibu/Saudara/i:\n' +
-          '✨ *' + namaTamu + '* ✨\n\n' +
+          '✨ *' + namaVal + '* ✨\n\n' +
           'Dengan penuh rasa syukur atas berkat dan penyertaan Allah Bapa, perkenankan kami mengundang Anda untuk hadir dan menjadi saksi ikrar suci pernikahan kami:\n\n' +
           '💍 *' + coupleText + '* 💍\n\n' +
           'Untuk informasi lengkap mengenai waktu pelaksanaan, denah lokasi, dan konfirmasi kehadiran, silakan buka tautan undangan resmi kami berikut:\n\n' +
