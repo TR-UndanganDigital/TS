@@ -5,45 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
   
   <!-- ==========================================================================
-       ⚙️ PENGATURAN CEPAT GITHUB PAGES (WA PREVIEW & BACKEND API)
+       👑 PUSAT PENGATURAN UTAMA UNDANGAN (EDIT CEPAT DI SINI)
+       ==========================================================================
+       Cukup ubah nilai di dalam tanda kutip "..." di bawah ini sewaktu-waktu.
+       Nama mempelai, cover, audio, dan link API akan langsung diterapkan seketika
+       tanpa perlu mencari kode ke bagian bawah!
        ========================================================================== -->
   <script>
-    /**
-     * 1. URL Web App Google Apps Script hasil Deploy backend (berakhiran /exec)
-     */
-    var DEFAULT_GAS_API_URL = "https://script.google.com/macros/s/AKfycbyUWyfbGJb91dduFl1gHlvHgM2NOrhNChxMBgyhXGrfJqr8N6ucfPNZt6Na4Kqxb-wdvQ/exec";
+    var CONFIG_UNDANGAN = {
+      // 1. URL Web App Google Apps Script (Deploy > Web App berakhiran /exec)
+      //    Tempel link exec backend Anda di sini agar sinkron ke Google Sheets:
+      GAS_API_URL: "https://script.google.com/macros/s/AKfycbyUWyfbGJb91dduFl1gHlvHgM2NOrhNChxMBgyhXGrfJqr8N6ucfPNZt6Na4Kqxb-wdvQ/exec",
 
-    /**
-     * 2. Direct URL Foto Cover untuk Thumbnail WhatsApp di GitHub Pages
-     * --------------------------------------------------------------------------
-     * 💡 PANDUAN FORMAT FOTO GOOGLE DRIVE (GOOGLE HIGH-SPEED DIRECT CDN):
-     * 
-     * Link Google Drive biasa (drive.google.com/file/d/...) TIDAK AKAN terbaca
-     * oleh bot WhatsApp. Gunakan format Google Direct CDN (lh3) agar foto cover
-     * dan thumbnail WhatsApp muncul beresolusi tinggi, jernih, dan super cepat!
-     * 
-     * LANGKAH MUDAH:
-     * 1. Upload foto ke Google Drive.
-     * 2. Klik Bagikan (Share) -> Ubah Akses Umum ke:
-     *    "Siapa saja yang memiliki link" -> "Pelihat (Viewer)".
-     * 3. Ambil ID File unik dari link share Google Drive Anda:
-     *    Contoh link share:
-     *    https://drive.google.com/file/d/1A2b3C4d5E6f7G8h9I0jKlMnO_PqRsTuV/view?usp=sharing
-     *    -> ID File Anda adalah: 1A2b3C4d5E6f7G8h9I0jKlMnO_PqRsTuV
-     * 
-     * 4. Salin ID tersebut ke format template Google CDN berikut:
-     *    https://lh3.googleusercontent.com/d/[ID_FILE_DRIVE]=w1200
-     * 
-     * 📋 CONTOH FORMAT SIAP PAKAI:
-     * var DEFAULT_OG_IMAGE_URL = "https://lh3.googleusercontent.com/d/1A2b3C4d5E6f7G8h9I0jKlMnO_PqRsTuV=w1200";
-     * 
-     * ⚠️ CATATAN UNTUK PREVIEW WHATSAPP DI GITHUB PAGES:
-     * Saat Anda mengganti DEFAULT_OG_IMAGE_URL di bawah, ganti juga link pada tag:
-     * <meta property="og:image" content="..."> di baris 48 dan 49
-     * agar crawler WhatsApp membaca gambar yang sama secara instan.
-     * --------------------------------------------------------------------------
-     */
-    var DEFAULT_OG_IMAGE_URL = "https://lh3.googleusercontent.com/d/10iu5cN2V4enK-YGCGh_hSunW2Sq7dSxw=w1200";
+      // 2. Data Mempelai Pria
+      NAMA_PANGGILAN_PRIA: "Teguh",
+      NAMA_LENGKAP_PRIA: "Teguh Rahadi, S.Pd",
+
+      // 3. Data Mempelai Wanita
+      NAMA_PANGGILAN_WANITA: "Sefi",
+      NAMA_LENGKAP_WANITA: "Sefiana, S.Pd",
+
+      // 4. Hari & Tanggal Acara (Tampil di Cover & Header)
+      TANGGAL_ACARA_COVER: "Sabtu, 26 September 2026",
+
+      // 5. Link Direct Foto Cover (Unsplash / Google Drive CDN lh3)
+      FOTO_COVER_URL: "https://lh3.googleusercontent.com/d/10iu5cN2V4enK-YGCGh_hSunW2Sq7dSxw=w1200",
+
+      // 6. Link File Audio Musik Latar (.mp3 direct link Dropbox / Google Drive)
+      URL_AUDIO_BG: "https://www.dropbox.com/scl/fi/krioa8nzbmbivr44d4qu7/Wahyu-F-Giri-LESTARI-Official-Music-Video-Rasa-Tresna-Kang-Sejati-Manggiha-Lestari.mp3?rlkey=283rnift9n5izz2p8zcxun6nb&st=evh5ngj0&dl=0"
+    };
+
+    // Shortcut backward-compatibility
+    var DEFAULT_GAS_API_URL = CONFIG_UNDANGAN.GAS_API_URL;
+    var DEFAULT_OG_IMAGE_URL = CONFIG_UNDANGAN.FOTO_COVER_URL;
   </script>
 
   <title id="metaTitle">The Wedding of Teguh & Sefi</title>
@@ -2136,11 +2130,11 @@
         <div class="loader-monogram font-script">
           <span id="loaderInitialPria">T</span>
           <span class="loader-amp font-serif">&</span>
-          <span id="loaderInitialWanita">T</span>
+          <span id="loaderInitialWanita">S</span>
         </div>
       </div>
       <h3 class="loader-title font-serif">The Wedding of</h3>
-      <p class="loader-names font-script" id="loaderCoupleNames">Tono & Tini</p>
+      <p class="loader-names font-script" id="loaderCoupleNames">Teguh & Sefi</p>
       <div class="loader-bar-wrap">
         <div class="loader-bar-progress"></div>
       </div>
@@ -2171,9 +2165,9 @@
           <h4 class="anim-cover-title">The Wedding of</h4>
           <h1 class="font-serif anim-cover-couple">
             <div class="couple-title-center" id="coverGroomBride">
-              <span id="coverNamaPria">Tono</span>
+              <span id="coverNamaPria">Teguh</span>
               <span class="ampersand">&</span>
-              <span id="coverNamaWanita">Tini</span>
+              <span id="coverNamaWanita">Sefi</span>
             </div>
           </h1>
           <p id="coverDate" class="cover-date-text anim-cover-date">&nbsp;</p>
@@ -2212,9 +2206,9 @@
           <h5>Together with their families</h5>
           <h2 class="font-serif">
             <div class="couple-title-center" id="headerNames">
-              <span id="headerNamaPria">Tono</span>
+              <span id="headerNamaPria">Teguh</span>
               <span class="ampersand">&</span>
-              <span id="headerNamaWanita">Tini</span>
+              <span id="headerNamaWanita">Sefi</span>
             </div>
           </h2>
           <p id="headerDate" class="unified-hero-date">&nbsp;</p>
@@ -2959,20 +2953,20 @@
       }
     } catch (e) {}
 
-    // defaultSettings dibuat netral tanpa hardcode nama lama agar DOM HTML menjadi rujukan utama
+    // defaultSettings mengambil rujukan langsung dari CONFIG_UNDANGAN di bagian paling atas file
     var defaultSettings = {
       judul_acara: '',
       teks_pembuka_mempelai: '',
-      nama_pria: '',
-      nama_lengkap_pria: '',
+      nama_pria: (typeof CONFIG_UNDANGAN !== 'undefined' && CONFIG_UNDANGAN.NAMA_PANGGILAN_PRIA) ? CONFIG_UNDANGAN.NAMA_PANGGILAN_PRIA : '',
+      nama_lengkap_pria: (typeof CONFIG_UNDANGAN !== 'undefined' && CONFIG_UNDANGAN.NAMA_LENGKAP_PRIA) ? CONFIG_UNDANGAN.NAMA_LENGKAP_PRIA : '',
       ortu_pria: '',
       foto_pria: '',
-      nama_wanita: '',
-      nama_lengkap_wanita: '',
+      nama_wanita: (typeof CONFIG_UNDANGAN !== 'undefined' && CONFIG_UNDANGAN.NAMA_PANGGILAN_WANITA) ? CONFIG_UNDANGAN.NAMA_PANGGILAN_WANITA : '',
+      nama_lengkap_wanita: (typeof CONFIG_UNDANGAN !== 'undefined' && CONFIG_UNDANGAN.NAMA_LENGKAP_WANITA) ? CONFIG_UNDANGAN.NAMA_LENGKAP_WANITA : '',
       ortu_wanita: '',
       foto_wanita: '',
-      foto_cover: (typeof DEFAULT_OG_IMAGE_URL !== 'undefined') ? DEFAULT_OG_IMAGE_URL : '',
-      tanggal_header: '',
+      foto_cover: (typeof CONFIG_UNDANGAN !== 'undefined' && CONFIG_UNDANGAN.FOTO_COVER_URL) ? CONFIG_UNDANGAN.FOTO_COVER_URL : ((typeof DEFAULT_OG_IMAGE_URL !== 'undefined') ? DEFAULT_OG_IMAGE_URL : ''),
+      tanggal_header: (typeof CONFIG_UNDANGAN !== 'undefined' && CONFIG_UNDANGAN.TANGGAL_ACARA_COVER) ? CONFIG_UNDANGAN.TANGGAL_ACARA_COVER : '',
       tanggal_countdown: '',
       tanggal_akad: '',
       jam_akad: '',
@@ -2992,7 +2986,7 @@
       quote_teks: '',
       quote_sumber: '',
       teks_penutup: '',
-      url_audio_bg: '',
+      url_audio_bg: (typeof CONFIG_UNDANGAN !== 'undefined' && CONFIG_UNDANGAN.URL_AUDIO_BG) ? CONFIG_UNDANGAN.URL_AUDIO_BG : '',
       admin_pin: '123456',
       vendor_wa: '',
       galeri_foto: defaultGalleryPhotos,
@@ -3032,6 +3026,9 @@
         var custom = localStorage.getItem(OFFLINE_KEYS.CUSTOM_API_URL);
         if (custom && custom.indexOf('http') === 0) return custom.trim();
       } catch (e) {}
+      if (typeof CONFIG_UNDANGAN !== 'undefined' && CONFIG_UNDANGAN.GAS_API_URL && CONFIG_UNDANGAN.GAS_API_URL.indexOf('http') === 0) {
+        return CONFIG_UNDANGAN.GAS_API_URL.trim();
+      }
       return (typeof DEFAULT_GAS_API_URL !== 'undefined') ? DEFAULT_GAS_API_URL : "";
     }
 
@@ -3779,17 +3776,32 @@
        MODULE 8: SETTINGS SYNCHRONIZER
        ========================================================================== */
     function applySettingsToDOM(s) {
-      if (!s) return;
+      if (!s) s = {};
       try {
-        // 1. BACA TERLEBIH DAHULU NAMA ASLI DARI ELEMEN DOM HTML SEBAGAI MASTER RUJUKAN
+        var cfg = (typeof CONFIG_UNDANGAN !== 'undefined') ? CONFIG_UNDANGAN : null;
+
+        // 1. Tentukan Nama: Prioritas 1: Google Sheet -> Prioritas 2: CONFIG_UNDANGAN di atas -> Prioritas 3: Teks DOM HTML
         var domCoverPria = document.getElementById('coverNamaPria');
         var domCoverWanita = document.getElementById('coverNamaWanita');
-        var currentPriaInDOM = domCoverPria ? domCoverPria.textContent.trim() : '';
-        var currentWanitaInDOM = domCoverWanita ? domCoverWanita.textContent.trim() : '';
+        var domTextPria = domCoverPria ? domCoverPria.textContent.trim() : '';
+        var domTextWanita = domCoverWanita ? domCoverWanita.textContent.trim() : '';
 
-        // Tentukan nama: Utamakan data baru dari settings, atau pertahankan teks yang sudah Anda ketik di HTML
-        var namaPria = (s.nama_pria && s.nama_pria.trim()) ? s.nama_pria.trim() : currentPriaInDOM;
-        var namaWanita = (s.nama_wanita && s.nama_wanita.trim()) ? s.nama_wanita.trim() : currentWanitaInDOM;
+        var namaPria = (s.nama_pria && s.nama_pria.trim()) 
+          ? s.nama_pria.trim() 
+          : (cfg && cfg.NAMA_PANGGILAN_PRIA ? cfg.NAMA_PANGGILAN_PRIA.trim() : domTextPria);
+
+        var namaWanita = (s.nama_wanita && s.nama_wanita.trim()) 
+          ? s.nama_wanita.trim() 
+          : (cfg && cfg.NAMA_PANGGILAN_WANITA ? cfg.NAMA_PANGGILAN_WANITA.trim() : domTextWanita);
+
+        var namaLengkapPria = (s.nama_lengkap_pria && s.nama_lengkap_pria.trim())
+          ? s.nama_lengkap_pria.trim()
+          : (cfg && cfg.NAMA_LENGKAP_PRIA ? cfg.NAMA_LENGKAP_PRIA.trim() : '');
+
+        var namaLengkapWanita = (s.nama_lengkap_wanita && s.nama_lengkap_wanita.trim())
+          ? s.nama_lengkap_wanita.trim()
+          : (cfg && cfg.NAMA_LENGKAP_WANITA ? cfg.NAMA_LENGKAP_WANITA.trim() : '');
+
         var coupleText = (namaPria && namaWanita) ? (namaPria + ' & ' + namaWanita) : (namaPria || namaWanita);
 
         // Update teks judul dan metadata hanya jika tersedia nama yang valid
@@ -3858,7 +3870,10 @@
           if (elPembuka) elPembuka.textContent = s.teks_pembuka_mempelai;
         }
 
-        var headerDateStr = formatDateToIndoFull(s.tanggal_header || s.tanggal_akad || '');
+        var headerDateStr = (s.tanggal_header && s.tanggal_header.trim())
+          ? formatDateToIndoFull(s.tanggal_header)
+          : (s.tanggal_akad ? formatDateToIndoFull(s.tanggal_akad) : (cfg && cfg.TANGGAL_ACARA_COVER ? cfg.TANGGAL_ACARA_COVER : ''));
+
         if (headerDateStr) {
           var coverDate = document.getElementById('coverDate');
           if (coverDate) coverDate.textContent = headerDateStr;
@@ -3866,7 +3881,10 @@
           if (headerDate) headerDate.textContent = headerDateStr;
         }
 
-        var directCoverUrl = s.foto_cover_direct || formatDriveImageUrl(s.foto_cover, 'w1200') || (typeof DEFAULT_OG_IMAGE_URL !== 'undefined' ? DEFAULT_OG_IMAGE_URL : '');
+        var directCoverUrl = s.foto_cover_direct 
+          || formatDriveImageUrl(s.foto_cover, 'w1200') 
+          || (cfg && cfg.FOTO_COVER_URL ? cfg.FOTO_COVER_URL : ((typeof DEFAULT_OG_IMAGE_URL !== 'undefined') ? DEFAULT_OG_IMAGE_URL : ''));
+
         if (directCoverUrl) {
           var coverHero = document.getElementById('coverHeroPhoto');
           if (coverHero && coverHero.src !== directCoverUrl) coverHero.src = directCoverUrl;
@@ -3874,7 +3892,7 @@
           if (mainHero && mainHero.src !== directCoverUrl) mainHero.src = directCoverUrl;
         }
 
-        if (s.nama_lengkap_pria) document.getElementById('namaLengkapPria').textContent = s.nama_lengkap_pria;
+        if (namaLengkapPria) document.getElementById('namaLengkapPria').textContent = namaLengkapPria;
         var directFotoPria = s.foto_pria_direct || formatDriveImageUrl(s.foto_pria, 'w600');
         if (directFotoPria) {
           var elFotoPria = document.getElementById('fotoPria');
@@ -3889,7 +3907,7 @@
           if (ortuPriaNames) ortuPriaNames.textContent = pPria.names;
         }
 
-        if (s.nama_lengkap_wanita) document.getElementById('namaLengkapWanita').textContent = s.nama_lengkap_wanita;
+        if (namaLengkapWanita) document.getElementById('namaLengkapWanita').textContent = namaLengkapWanita;
         var directFotoWanita = s.foto_wanita_direct || formatDriveImageUrl(s.foto_wanita, 'w600');
         if (directFotoWanita) {
           var elFotoWanita = document.getElementById('fotoWanita');
@@ -4514,8 +4532,13 @@
     function buildClientWAMessage(namaVal, linkVal, agamaVal) {
       var domCoverPria = document.getElementById('coverNamaPria');
       var domCoverWanita = document.getElementById('coverNamaWanita');
-      var pName = (cachedSettings.nama_pria && cachedSettings.nama_pria.trim()) || (domCoverPria ? domCoverPria.textContent.trim() : '');
-      var wName = (cachedSettings.nama_wanita && cachedSettings.nama_wanita.trim()) || (domCoverWanita ? domCoverWanita.textContent.trim() : '');
+      var cfg = (typeof CONFIG_UNDANGAN !== 'undefined') ? CONFIG_UNDANGAN : null;
+      var pName = (cachedSettings.nama_pria && cachedSettings.nama_pria.trim()) 
+        || (cfg && cfg.NAMA_PANGGILAN_PRIA ? cfg.NAMA_PANGGILAN_PRIA.trim() : '')
+        || (domCoverPria ? domCoverPria.textContent.trim() : '');
+      var wName = (cachedSettings.nama_wanita && cachedSettings.nama_wanita.trim()) 
+        || (cfg && cfg.NAMA_PANGGILAN_WANITA ? cfg.NAMA_PANGGILAN_WANITA.trim() : '')
+        || (domCoverWanita ? domCoverWanita.textContent.trim() : '');
       var coupleText = (pName && wName) ? (pName + ' & ' + wName) : (pName || wName || 'Mempelai');
       var cleanAgama = (agamaVal || 'Islam').toLowerCase();
 
