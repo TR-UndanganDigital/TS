@@ -43,7 +43,7 @@
      * agar crawler WhatsApp membaca gambar yang sama secara instan.
      * --------------------------------------------------------------------------
      */
-    var DEFAULT_OG_IMAGE_URL = "https://lh3.googleusercontent.com/d/10iu5cN2V4enK-YGCGh_hSunW2Sq7dSxw=w1200";
+    var DEFAULT_OG_IMAGE_URL = "https://lh3.googleusercontent.com/d/1dowZbNIqhPau45UlTyepU_3lcASsepGw=w1200";
   </script>
 
   <title id="metaTitle">The Wedding of Teguh & Sefi</title>
@@ -52,7 +52,7 @@
   
   <meta itemprop="name" content="The Wedding of Teguh & Sefi">
   <meta itemprop="description" content="Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.">
-  <meta itemprop="image" id="dynItempropImage" content="https://lh3.googleusercontent.com/d/10iu5cN2V4enK-YGCGh_hSunW2Sq7dSxw=w1200">
+  <meta itemprop="image" id="dynItempropImage" content="https://lh3.googleusercontent.com/d/1dowZbNIqhPau45UlTyepU_3lcASsepGw=w1200">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="id_ID">
@@ -60,19 +60,19 @@
   <meta property="og:title" id="dynOgTitle" content="The Wedding of Teguh & Sefi">
   <meta property="og:description" id="dynOgDesc" content="Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.">
   
-  <meta property="og:image" id="dynOgImage" content="https://lh3.googleusercontent.com/d/10iu5cN2V4enK-YGCGh_hSunW2Sq7dSxw=w1200">
-  <meta property="og:image:secure_url" id="dynOgImageSecure" content="https://lh3.googleusercontent.com/d/10iu5cN2V4enK-YGCGh_hSunW2Sq7dSxw=w1200">
+  <meta property="og:image" id="dynOgImage" content="https://lh3.googleusercontent.com/d/1dowZbNIqhPau45UlTyepU_3lcASsepGw=w1200">
+  <meta property="og:image:secure_url" id="dynOgImageSecure" content="https://lh3.googleusercontent.com/d/1dowZbNIqhPau45UlTyepU_3lcASsepGw=w1200">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Wedding Invitation Cover Photo">
 
-  <link rel="image_src" id="dynLinkImageSrc" href="https://lh3.googleusercontent.com/d/10iu5cN2V4enK-YGCGh_hSunW2Sq7dSxw=w1200">
+  <link rel="image_src" id="dynLinkImageSrc" href="https://lh3.googleusercontent.com/d/1dowZbNIqhPau45UlTyepU_3lcASsepGw=w1200">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" id="dynTwTitle" content="The Wedding of Teguh & Sefi">
   <meta name="twitter:description" id="dynTwDesc" content="Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.">
-  <meta name="twitter:image" id="dynTwImage" content="https://lh3.googleusercontent.com/d/10iu5cN2V4enK-YGCGh_hSunW2Sq7dSxw=w1200">
+  <meta name="twitter:image" id="dynTwImage" content="https://lh3.googleusercontent.com/d/1dowZbNIqhPau45UlTyepU_3lcASsepGw=w1200">
 
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -2939,14 +2939,21 @@
       { id: 'foto_galeri_8', index: 8, url: 'https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=1200&q=80', thumb: 'https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=600&q=80' }
     ];
 
+    // OFFLINE_KEYS: Cache ucapan RSVP dihapus permanen agar sinkron real-time dengan Google Sheets
     var OFFLINE_KEYS = {
       SETTINGS: 'zb_luxury_settings_cache_v3',
       STORIES: 'zb_luxury_stories_cache_v3',
-      RSVP: 'zb_luxury_rsvp_cache_v3',
       GUEST_NAME: 'zb_luxury_guest_name_v3',
       OFFLINE_QUEUE: 'zb_luxury_offline_rsvp_queue_v3',
       CUSTOM_API_URL: 'zb_luxury_custom_api_url_v3'
     };
+
+    // Auto-Purge: Membersihkan sisa data hantu di memori browser pengunjung seketika
+    try {
+      if (window.localStorage) {
+        localStorage.removeItem('zb_luxury_rsvp_cache_v3');
+      }
+    } catch (e) {}
 
     var defaultSettings = {
       judul_acara: 'The Wedding of Tono & Tini',
@@ -3970,12 +3977,7 @@
       callBackendAPI('getRSVPList', { limit: rsvpLimit, offset: rsvpOffset }, function(res) {
         renderRSVPResponse(res, true);
       }, function() {
-        var storedRSVP = getLocalData(OFFLINE_KEYS.RSVP);
-        if (storedRSVP && storedRSVP.items) {
-          renderRSVPResponse(storedRSVP, true);
-        } else {
-          renderLocalMockWishes();
-        }
+        renderLocalMockWishes();
       });
     }
 
@@ -3998,8 +4000,6 @@
       if (isReset) container.innerHTML = '';
       
       if (response && response.items && response.items.length > 0) {
-        saveLocalData(OFFLINE_KEYS.RSVP, response);
-
         for (var i = 0; i < response.items.length; i++) {
           container.innerHTML += buildCommentHTML(response.items[i]);
         }
@@ -4132,12 +4132,6 @@
         jumlah: jumlahVal,
         ucapan: ucapanVal
       };
-
-      var currentCache = getLocalData(OFFLINE_KEYS.RSVP) || { items: [], total: 0 };
-      currentCache.items = currentCache.items || [];
-      currentCache.items.unshift(optimisticEntry);
-      currentCache.total = (currentCache.total || 0) + 1;
-      saveLocalData(OFFLINE_KEYS.RSVP, currentCache);
 
       if (!navigator.onLine) {
         var queue = getLocalData(OFFLINE_KEYS.OFFLINE_QUEUE) || [];
@@ -4927,12 +4921,8 @@
         initGallerySwipeListener();
         initLuxuryScrollObserver();
         
-        var storedRSVP = getLocalData(OFFLINE_KEYS.RSVP);
-        if (storedRSVP && storedRSVP.items && storedRSVP.items.length > 0) {
-          renderRSVPResponse(storedRSVP, true);
-        } else {
-          loadInitialRSVP();
-        }
+        // Real-time RSVP: Langsung memuat data asli dari Google Sheets tanpa membaca cache memori
+        loadInitialRSVP();
 
         // Ambil pembaruan terkini dari server backend Google Sheets
         if (navigator.onLine) {
